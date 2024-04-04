@@ -1,5 +1,6 @@
 package com.ll.medium.domain.member.member.controller;
 
+import com.ll.medium.domain.member.member.entity.Member;
 import com.ll.medium.domain.member.member.service.MemberService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -30,9 +31,12 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public String signup(@Valid JoinForm joinForm) {
-        memberService.join(joinForm.getUsername(), joinForm.getPassword());
+    public String join(@Valid JoinForm joinForm) {
+        Member member = memberService.join(joinForm.getUsername(), joinForm.getPassword());
 
-        return "redirect:/";
+        long id = member.getId();
+
+        return "redirect:/?msg=No %d member joined.".formatted(id);
+
     }
 }
